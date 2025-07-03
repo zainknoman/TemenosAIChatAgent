@@ -31,8 +31,8 @@ services:
       # Supabase credentials (replace with your actual Supabase project details)
       # IMPORTANT: Do NOT commit real API keys to public repositories.
       # For production, use Docker secrets or a proper secrets management solution.
-      - SUPABASE_URL=https://qzeycjqsqtmguhibvqjc.supabase.co # e.g., https://abcde12345.supabase.co
-      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6ZXljanFzcXRtZ3VoaWJ2cWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyNTAyOTcsImV4cCI6MjA2NTgyNjI5N30.u8EJa--fi6c-8CBrbHQYPWiZu85H6-mUH--i3WPIcBg # e.g., eyJhbGciOiJIUzI...
+      - SUPABASE_URL=YOUR_SUPABASE_URL # e.g., https://abcde12345.supabase.co
+      - SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY # e.g., YOUR_SUPABASE_ANON_KEY_HERE
       # Self-correction/Important Note:
       # While the README.md mentioned using the anon key for the backend for simplicity,
       #  in a more secure production environment, you would typically use the service_role key on the backend to bypass
@@ -40,7 +40,7 @@ services:
       #  For this MVP, the anon key is sufficient, assuming RLS is configured to allow inserts/reads for chat_history.
 
       # Gemini API Key (replace with your actual Gemini API key)
-      - GEMINI_API_KEY=AIzaSyBOVHXVIfsf42bdmGijBQj4M4XuUFnuLcg
+      - GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE # e.g., YOUR_GEMINI_API_KEY_HERE
       # Mock Banking API URL (matches the service name in docker-compose)
       - MOCK_BANKING_API_URL=http://mock-banking-api:3002
     volumes:
