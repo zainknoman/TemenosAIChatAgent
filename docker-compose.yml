@@ -1,0 +1,63 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  # Frontend service (React App)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80" # CORRECTED: Map host port 3000 to container port 80 (where Nginx listens)
+    environment:
+      # React apps automatically pick up REACT_APP_ prefixed variables``
+      # Ensure this matches the backend service name in docker-compose
+      - REACT_APP_BACKEND_URL=http://backend:3001
+    volumes:
+      # Mount the frontend source code for hot-reloading during development
+      - ./frontend:/app
+      - /app/node_modules # Exclude node_modules from host mount
+    depends_on:
+      - backend # Frontend depends on backend being up
+
+  # Backend service (Node.js API Gateway)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      # Supabase credentials (replace with your actual Supabase project details)
+      # IMPORTANT: Do NOT commit real API keys to public repositories.
+      # For production, use Docker secrets or a proper secrets management solution.
+      - SUPABASE_URL=https://qzeycjqsqtmguhibvqjc.supabase.co # e.g., https://abcde12345.supabase.co
+      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6ZXljanFzcXRtZ3VoaWJ2cWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyNTAyOTcsImV4cCI6MjA2NTgyNjI5N30.u8EJa--fi6c-8CBrbHQYPWiZu85H6-mUH--i3WPIcBg # e.g., eyJhbGciOiJIUzI...
+      # Self-correction/Important Note:
+      # While the README.md mentioned using the anon key for the backend for simplicity,
+      #  in a more secure production environment, you would typically use the service_role key on the backend to bypass
+      #  Row Level Security (RLS) if needed, or ensure your RLS policies are robust enough for the anon key.
+      #  For this MVP, the anon key is sufficient, assuming RLS is configured to allow inserts/reads for chat_history.
+
+      # Gemini API Key (replace with your actual Gemini API key)
+      - GEMINI_API_KEY=AIzaSyBOVHXVIfsf42bdmGijBQj4M4XuUFnuLcg
+      # Mock Banking API URL (matches the service name in docker-compose)
+      - MOCK_BANKING_API_URL=http://mock-banking-api:3002
+    volumes:
+      # Mount the backend source code for hot-reloading during development
+      - ./backend:/app
+      - /app/node_modules # Exclude node_modules from host mount
+    depends_on:
+      - mock-banking-api # Backend depends on mock banking API
+
+  # Mock Banking API service (Node.js)
+  mock-banking-api:
+    build:
+      context: ./mock-banking-api
+      dockerfile: Dockerfile.mockapi
+    ports:
+      - "3002:3002"
+    volumes:
+      # Mount the mock banking API source code for hot-reloading during development
+      - ./mock-banking-api:/app
+      - /app/node_modules # Exclude node_modules from host mount

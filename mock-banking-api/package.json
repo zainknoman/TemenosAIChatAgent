@@ -1,0 +1,20 @@
+{
+  "name": "mock-banking-api",
+  "version": "1.0.0",
+  "description": "A mock API simulating Temenos T24 Core Banking System and IRIS API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "AI Agent",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
